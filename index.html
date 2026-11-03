@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مصحف الويب الإلكتروني</title>
+    <style>
+ #a6:link,#a6:visited{
+            text-decoration-line: none;
+                background-color:  #008036;
+                    color:rgba(242, 233, 8, 0.97);
+              padding: 2px 3px;
+              border: 0px solid #ef1ecf;
+              border-radius: 15px;
+          }
+        #a5:link,#a5:visited{
+            text-decoration-line: none;
+                background-color:  navy;
+                    color:lightblue;
+              padding: 2px 3px;
+              border: 0px solid #ef1ecf;
+              border-radius: 15px;
+          } 
+        #a4:link,#a4:visited{
+            text-decoration-line: none;
+                  background-color:  yellow;
+                    color:maroon;
+              padding: 5px 5px;
+              border: 0px solid #ef1ecf;
+              border-radius: 15px;
+          } 
+ #a3:link,#a3:visited{
+            text-decoration-line: none;
+                background-color:  #008036;
+                    color:rgba(242, 233, 8, 0.97);
+              padding: 2px 3px;
+              border: 0px solid #ef1ecf;
+              border-radius: 15px;
+          }
+        /* تنسيق الواجهة */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #eceff1; margin: 0; padding: 10px; }
+        .container { max-width: 800px; margin: auto; background: #2e7d32; padding: 50px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        /* زر البدء الكبير */
+        #startOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        #startBtn { padding: 20px 40px; font-size: 24px; background: #2e7d32; color: maroon; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; }
+        #startBtn:hover { background: #1b5e20; transform: scale(1.1); }
+select {
+    padding: 12px;
+    margin: 8px;
+    border-radius: 18px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    width: 70%;
+    background-color: yellow; /* يضمن وضوح النص أثناء البحث */
+}
+
+        select, button { padding: 12px; margin: 8px; border-radius: 8px; border: 1px solid #ccc; font-size: 18px; width: 80%; }
+        .controls { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .controls button { width: 25%; background: #455a64; color: yellow; border: none; cursor: pointer; }
+        img { max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); margin-top: 15px; }
+    
+#quranImage {
+    display: block;
+    margin: 15px auto;
+    width: 100%;       /* تجعل الصورة بعرض الشاشة */
+    height: auto;      /* تحافظ على أبعاد الصورة */
+    background: #fff;  /* خلفية بيضاء أثناء التحميل */
+}
+#btnToTop {
+    display: none; /* مخفي افتراضياً */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    font-size: 24px;
+    border: none;
+    outline: none;
+    background-color: #2e7d32; /* نفس لون برنامجك الأخضر */
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%; /* شكل دائري */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    width: 50px;
+    height: 50px;
+    line-height: 20px;
+}
+
+#btnToTop:hover {
+    background-color:yellow;
+}
+
+</style>
+
+
+</head>
+
+<button onclick="topFunction()" id="btnToTop" title="العودة للأعلى">⬆</button>
+<body>
+
+<!-- واجهة البدء الكبيرة -->
+<div id="startOverlay">
+    <h1 style="margin-bottom: 20px;">مرحباً بك في المصحف الإلكتروني</h1>
+    <button id="startBtn" onclick="startApp()">اضغط لبدء التلاوة والعرض</button>
+</div>
+
+<div class="container">
+    <h2 style="color:yellow;">المصحف الإلكتروني</h2>
+    
+    <select id="reciterSelect" onchange="loadPage()">
+            <option value="https://dn710207.ca.archive.org/0/items/b240930bbbbbbbbb/">المنشاوي</option>
+        <option value="https://dn720708.ca.archive.org/0/items/483568356837_gmail_001/">فارس عباد</option>
+        <option value="https://everyayah.com/data/Maher_AlMuaiqly_64kbps/PageMp3s/Page">ماهر المعيقلى</option>
+         <option value="https://dn710707.ca.archive.org/0/items/Quran--alagami---604-part----full--mp3/">العجمي</option>
+           <option value="https://archive.org/download/c241210cccccccc/">العجمي معلم</option>
+ <option value="https://dn721604.ca.archive.org/0/items/ccc0241006cccc/">الدوسري</option>
+       <option value="https://archive.org/download/a1124aaaaaaaaaaa/">الطبلاوى مجود</option>
+ <option value="https://ia802901.us.archive.org/7/items/Quran--abd-albasit-mogawwad-604-part---full/">عبد الباسط مجود</option>
+ <option value="https://everyayah.com/data/Abdul_Basit_Murattal_64kbps/PageMp3s/Page">عبد الباسط مرتل</option>
+        <option value="https://everyayah.com/data/Husary_Mujawwad_64kbps/PageMp3s/Page">الحصرى مجود</option>
+         <option value="https://dn711001.ca.archive.org/0/items/way2sona_20160507_1405/"> الحصرى مرتل</option>
+  <option value="https://dn710804.ca.archive.org/0/items/rabieaaa20035683568356835685863/">الحرم المكى</option>
+<option value="https://dn720701.ca.archive.org/0/items/c250104cccc/">صلاح الجمل </option>
+<option value="https://dn710207.ca.archive.org/0/items/c41004cccccccc/">الشريم </option>
+
+  <option value="https://everyayah.com/data/Hudhaify_64kbps/PageMp3s/Page">الحزيفي</option>
+  <option value="https://everyayah.com/data/Muhammad_Ayyoub_64kbps/PageMp3s/Page">محمد أيوب</option>
+        <option value="https://everyayah.com/data/Alafasy_64kbps/PageMp3s/Page">العفاسى</option>
+<option value="https://ia802901.us.archive.org/7/items/Quran--abd-albasit-mogawwad-604-part---full/">عبد الباسط مجود</option>
+ <option value="https://everyayah.com/data/Abdul_Basit_Murattal_64kbps/PageMp3s/Page">عبد الباسط مرتل</option>
+<option value="https://everyayah.com/data/Abdurrahmaan_As-Sudais_64kbps/PageMp3s/Page">السديسى </option>
+<option value="https://everyayah.com/data/Muhammad_Jibreel_64kbps/PageMp3s/Page">محمد جبريل </option>
+<option value="https://archive.org/download/rabieaaa2017_yahoo_21165666666/">على جابر </option>
+ </select>
+ <!-- ضعه هنا تحت عنوان "المصحف الإلكتروني" وقبل قائمة الـ select -->
+<div style="position: relative; width: 90%; margin: 10px auto;">
+    <input type="text" id="searchInput" onkeyup="filterSurahs()" placeholder="🔍 ابحث عن اسم السورة..." 
+           style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #2e7d32; box-sizing: border-box; direction: rtl; font-size: 18px; width: 100%;">
+    <span onclick="document.getElementById('searchInput').value=''; filterSurahs();" 
+          style="position: absolute; left: 10px; top: 12px; cursor: pointer; color: #999;">✖</span>  
+
+
+
+
+    <select id="pageSelect" onchange="loadPage()"></select>
+
+    <audio id="audioPlayer" controls style="width: 100%; margin: 15px 0;"></audio>
+<!-- أزرار التحكم -->
+<div class="controls" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15px 0;">
+    <!-- زر السابق -->
+    <button onclick="changePage(-1)" style="width: 80px;">▶السابق</button>
+
+    <!-- خانة البحث برقم الصفحة -->
+   <input type="number" id="pageNumberInput" min="1" max="604" 
+       oninput="goToSpecificPage(this)"
+           style="width: 70px; padding: 10px; text-align: center; border: 2px solid #2e7d32; border-radius: 12px; font-weight: bold;">
+
+    <!-- زر التالي -->
+    <button onclick="changePage(1)" style="width: 80px;">التالي ◀</button>
+</div>
+
+</script>
+
+  
+  <div id="quranPageContainer">
+        <img id="quranImage" src="" alt="جاري تحميل صورة الصفحة...">
+    </div>
+
+<div style="margin: 15px 0; padding: 10px; border: 1px dashed #2e7d32; border-radius: 10px;">
+    <label>⏳ مؤقت النوم: </label>
+    <select id="sleepTimer" style="width: auto; padding: 5px;" onchange="setSleepTimer()">
+        <option value="0">إيقاف المؤقت</option>
+        <option value="15">بعد 15 دقيقة</option>
+        <option value="30">بعد 30 دقيقة</option>
+        <option value="60">بعد ساعة</option>
+    </select>
+    <div id="timerStatus" style="font-size: 12px; color: #d32f2f; margin-top: 5px;"></div>
+</div>
+<script>
+
+
+function goToSpecificPage(inputElement) {
+    let pageNum = parseInt(inputElement.value);
+
+    // التحقق من أن الرقم مكتمل وصحيح قبل الانتقال
+    if (pageNum >= 1 && pageNum <= 604) {
+        pageSelect.value = pageNum;
+        
+        // تحديث الصورة والصوت
+        let formattedPage = String(pageNum).padStart(3, '0');
+         // تحديث الصورة (استخدام رابط مستقر)
+ 
+quranImage.src = `https://archive.org/download/z_20240806xx/${formattedPage}.jpg`;
+    // تحديث الصوت
+    let baseURL = reciterSelect.value;
+    audioPlayer.src = `${baseURL}${formattedPage}.mp3`;
+    
+        audioPlayer.play().catch(e => console.log("تحميل"));
+
+        // تحديث المربع الآخر ليتزامن معه
+        if (inputElement.id === "pageNumberInput") {
+            document.getElementById('pageNumberInputBottom').value = pageNum;
+        } else {
+            document.getElementById('pageNumberInput').value = pageNum;
+        }
+        
+        localStorage.setItem('lastPage', pageNum);
+    }
+}
+
+
+
+   // تعريف العناصر الأساسية
+const pageSelect = document.getElementById('pageSelect');
+const audioPlayer = document.getElementById('audioPlayer');
+const quranImage = document.getElementById('quranImage');
+const reciterSelect = document.getElementById('reciterSelect');
+const startOverlay = document.getElementById('startOverlay');
+
+// 1. تعبئة القائمة بالصفحات (تأكد أن هذا الكود يعمل فوراً)
+function fillPages() {
+
+pageSelect.innerHTML = "";
+    // قائمة بدايات السور الـ 114 (رقم الصفحة : اسم السورة)
+    const surahData = {
+        1: "الفاتحة", 2: "البقرة", 50: "آل عمران", 77: "النساء", 106: "المائدة", 128: "الأنعام", 151: "الأعراف", 177: "الأنفال", 187: "التوبة", 208: "يونس", 
+        221: "هود", 235: "يوسف", 249: "الرعد", 255: "إبراهيم", 262: "الحجر", 267: "النحل", 282: "الإسراء", 293: "الكهف", 305: "مريم", 312: "طه", 
+        322: "الأنبياء", 332: "الحج", 342: "المؤمنون", 350: "النور", 359: "الفرقان", 367: "الشعراء", 377: "النمل", 385: "القصص", 396: "العنكبوت", 404: "الروم", 
+        411: "لقمان", 415: "السجدة", 418: "الأحزاب", 428: "سبأ", 434: "فاطر", 440: "يس", 446: "الصافات", 453: "ص", 458: "الزمر", 467: "غافر", 
+        477: "فصلت", 483: "الشورى", 489: "الزخرف", 496: "الدخان", 499: "الجاثية", 502: "الأحقاف", 507: "محمد", 511: "الفتح", 515: "الحجرات", 518: "ق", 
+        520: "الذاريات", 523: "الطور", 526: "النجم", 528: "القمر", 531: "الرحمن", 534: "الواقعة", 537: "الحديد", 542: "المجادلة", 545: "الحشر", 549: "الممتحنة", 
+        551: "الصف", 553: "الجمعة", 554: "المنافقون", 556: "التغابن", 558: "الطلاق", 560: "التحريم", 562: "الملك", 564: "القلم", 566: "الحاقة", 568: "المعارج", 
+        570: "نوح", 572: "الجن", 574: "المزمل", 575: "المدثر", 577: "القيامة", 578: "الإنسان", 580: "المرسلات", 582: "النبأ", 583: "النازعات", 585: "عبس", 
+        586: "التكوير", 587: "الانفطار", 587: "المطففين", 589: "الانشقاق", 590: "البروج", 591: "الطارق-الاعلى", 592: "الغاشية", 593: "الفجر", 594: "البلد", 
+        595: "الشمس-الليل",  596: "الضحى-الشرح", 597: "التين-العلق", 598: "القدر-البينة", 599: "الزلزلة-العاديات", 
+         600: "الفارعة-التكاثر",  601: "العصر-الهمزة-الفيل", 602: "قريش-الماعون-الكوثر", 603: "الكافرون-النصر-المسد", 604: "الاخلاص-الفلق-الناس",
+    };
+
+    let currentSurahName = "الفاتحة";
+    for (let i = 1; i <= 604; i++) {
+        // إذا كانت الصفحة الحالية هي بداية سورة جديدة، قم بتحديث الاسم
+        if (surahData[i]) {
+            currentSurahName = surahData[i];
+        }
+        
+        let option = document.createElement('option');
+        option.value = i;
+        option.text = `ص ${i} | سورة ${currentSurahName}`;
+        pageSelect.appendChild(option);
+    }
+}
+
+
+fillPages(); // استدعاء دالة التعبئة
+
+// 2. دالة البدء (التي يستدعيها الزر الكبير)
+function startApp() {
+    console.log("تم الضغط على زر البدء");
+    
+    // إخفاء الواجهة السوداء
+    if (startOverlay) startOverlay.style.display = "none"; 
+    
+    // استعادة آخر صفحة من الذاكرة
+    let last = localStorage.getItem('lastPage');
+    if (last) {
+        pageSelect.value = last;
+    } else {
+        pageSelect.value = "1";
+    }
+    
+    // تشغيل الصوت والصورة (الآن مسموح بعد الضغط)
+    loadPage(); 
+}
+
+// 3. دالة تحميل البيانات (الصوت والصورة)
+function loadPage() {
+    let pageNum = pageSelect.value;
+    let formattedPage = pageNum.padStart(3, '0');
+
+    // تحديث الصورة (استخدام رابط مستقر)
+   //  quranImage.src = `https://archive.org${formattedPage}.png`;
+quranImage.src = `https://archive.org/download/z_20240806xx/${formattedPage}.jpg`;
+    // تحديث الصوت
+    let baseURL = reciterSelect.value;
+    audioPlayer.src = `${baseURL}${formattedPage}.mp3`;
+    
+    // تحديث المربع العلوي والمربع السفلي معاً
+    if(document.getElementById('pageNumberInput')) {
+        document.getElementById('pageNumberInput').value = pageNum;
+    }
+    if(document.getElementById('pageNumberInputBottom')) {
+        document.getElementById('pageNumberInputBottom').value = pageNum;
+    }
+    
+    
+    localStorage.setItem('lastPage', pageNum);
+}
+
+
+// دالة تغيير الصفحة (التالي والسابق)
+function changePage(step) {
+    let current = parseInt(pageSelect.value);
+    let next = current + step;
+    if (next >= 1 && next <= 604) {
+        pageSelect.value = next;
+        loadPage();
+    }
+}
+
+// الانتقال التلقائي عند الانتهاء
+// هذا الحدث يعمل فور انتهاء صوت الصفحة الحالية
+audioPlayer.onended = function() {
+    console.log("انتهت الصفحة، جاري الانتقال تلقائياً...");
+    
+    // استدعاء دالة التغيير للانتقال للصفحة التالية
+    changePage(1); 
+    
+    // تأكيد التشغيل التلقائي (لأن بعض المتصفحات قد توقفه)
+    setTimeout(function() {
+        audioPlayer.play();
+    }, 500); // تأخير بسيط لنصف ثانية لضمان تحميل الرابط الجديد
+};
+    // ضف دالة البحث هنا في النهاية
+    function filterSurahs() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let options = pageSelect.options;
+
+        for (let i = 0; i < options.length; i++) {
+            let text = options[i].text;
+            if (text.toLowerCase().indexOf(input) > -1) {
+                options[i].style.display = ""; 
+            } else {
+                options[i].style.display = "none"; 
+            }
+        }
+    }
+
+let sleepTimeout; // متغير لتخزين المؤقت
+
+function setSleepTimer() {
+    // 1. إلغاء أي مؤقت سابق إذا وجد
+    clearTimeout(sleepTimeout);
+    document.getElementById('timerStatus').innerText = "";
+
+    let minutes = parseInt(document.getElementById('sleepTimer').value);
+
+    if (minutes > 0) {
+        // 2. حساب الوقت بالملي ثانية
+        let ms = minutes * 60 * 1000;
+
+        // 3. ضبط التوقف
+        sleepTimeout = setTimeout(function() {
+            audioPlayer.pause(); // إيقاف الصوت
+            alert("انتهى الوقت، تم إيقاف التشغيل تلقائياً.");
+            document.getElementById('sleepTimer').value = "0";
+            document.getElementById('timerStatus').innerText = "";
+        }, ms);
+
+        // 4. عرض رسالة تأكيد للمستخدم
+        document.getElementById('timerStatus').innerText = "سيتم إيقاف التشغيل بعد " + minutes + " دقيقة";
+    }
+}
+// البحث عن الزر في الكود
+let mybutton = document.getElementById("btnToTop");
+
+// عندما ينزل المستخدم 100 بكسل للأسفل، يظهر الزر
+window.onscroll = function() { scrollFunction() };
+
+function scrollFunction() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+}
+
+// دالة العودة للأعلى عند الضغط
+function topFunction() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // صعود سلس وليس قفزة مفاجئة
+    });
+}
+
+</script>
+<!-- أزرار التحكم السفلية -->
+<div class="controls" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin: 20px 0;">
+    <button onclick="changePage(-1)" style="width: 80px;">الصفحة السابقة ▶</button>
+
+    <!-- المربع السفلي (لاحظ ID مختلف: pageNumberInputBottom) -->
+   <input type="number" id="pageNumberInputBottom" min="1" max="604" 
+       oninput="goToSpecificPage(this)" 
+     style="width: 70px; padding: 10px; text-align: center; border: 2px solid #2e7d32; border-radius: 8px; font-weight: bold;">
+    <button onclick="changePage(1)" style="width: 80px;">◀ الصفحة التالية</button>
+</div>
+
+<br></br><a id="a6" href="https://www.hisnmuslim.com/"target=_blank>حصن المسلم من أذكار الكتاب والسنة</a>
+  <a id="a5" href="https://www.mp3quran.net/ar/tafsirs"target=_blank>تفسير القرآن الكريم : الخلاصة من تفسير الطبري</a>  
+ <br></br>
+<a id="a4" href="https://www.mp3quran.net/ar/recitation-mistakes"target=_blank>من الأخطاء الشائعة في تلاوة القرآن الكريم</a>  
+<br></br><a id="a3" href="https://ourquraan.com/tafser/"target=_blank>تفسير القران الكريم-ourquraan</a>
+</body>
+</html>
